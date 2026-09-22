@@ -307,26 +307,27 @@ function goTo(idx, dir) {
 document.getElementById('prevBtn')?.addEventListener('click', () => navigate(-1));
 document.getElementById('nextBtn')?.addEventListener('click', () => navigate(1));
 
-// ── SWIPE GESTURES FOR DIARY (TOUCH + MOUSE DRAG) ─────────────
+// ── SWIPE GESTURES FOR DIARY (DESKTOP DRAG & MOBILE SWIPE) ────
 let startX = 0, startY = 0, endX = 0, endY = 0;
 let isDragging = false;
 
 const stage = document.getElementById('pageStage');
 if (stage) {
-  // Touch Events (Mobile)
+  // Touch Events (Mobile Smartphones)
   stage.addEventListener('touchstart', e => {
-    startX = e.changedTouches[0].screenX;
-    startY = e.changedTouches[0].screenY;
+    startX = e.changedTouches[0].clientX;
+    startY = e.changedTouches[0].clientY;
   }, { passive: true });
 
   stage.addEventListener('touchend', e => {
-    endX = e.changedTouches[0].screenX;
-    endY = e.changedTouches[0].screenY;
-    evaluateSwipe();
+    endX = e.changedTouches[0].clientX;
+    endY = e.changedTouches[0].clientY;
+    evaluateSwipe(true);
   }, { passive: true });
 
-  // Mouse Drag Events (Desktop Swipe)
+  // Mouse Drag Events (Desktop only - skip if touchscreen active)
   stage.addEventListener('mousedown', e => {
+    if ('ontouchstart' in window && window.innerWidth <= 768) return;
     isDragging = true;
     startX = e.clientX;
     startY = e.clientY;
@@ -339,16 +340,18 @@ if (stage) {
     endX = e.clientX;
     endY = e.clientY;
     stage.style.cursor = '';
-    evaluateSwipe();
+    evaluateSwipe(false);
   });
 }
 
-function evaluateSwipe() {
+function evaluateSwipe(isTouch) {
   const deltaX = endX - startX;
   const deltaY = endY - startY;
-  const swipeThreshold = 35; // Responsive threshold for quick snappy feel
+  // Threshold lebih tinggi untuk sentuhan (60px) agar tap biasa tidak memicu pindah halaman
+  const swipeThreshold = isTouch ? 60 : 45;
   
-  if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+  // Memastikan gerakan memang swipe horizontal yang kuat (bukan tap biasa atau scroll vertikal)
+  if (Math.abs(deltaX) > Math.abs(deltaY) * 1.5 && Math.abs(deltaX) > swipeThreshold) {
     if (deltaX < 0) {
       navigate(1);  // Swipe Kiri -> Halaman Berikutnya
     } else {

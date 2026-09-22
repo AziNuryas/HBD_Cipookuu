@@ -309,7 +309,10 @@ body {
   transform-origin: left center;
   backface-visibility: hidden;
 }
-.diary-page.p-active { opacity: 1; pointer-events: auto; position: relative; z-index: 2; transform: rotateY(0deg) scale(1); }
+.diary-page.p-active {
+  opacity: 1; pointer-events: auto; position: relative; z-index: 2;
+  transform: none !important;
+}
 .diary-page.p-enter-right { animation: pBookTurnInRight 0.75s cubic-bezier(0.2, 0.8, 0.25, 1) forwards; }
 .diary-page.p-enter-left  { animation: pBookTurnInLeft 0.75s cubic-bezier(0.2, 0.8, 0.25, 1) forwards; }
 .diary-page.p-exit-right  { animation: pBookTurnOutRight 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards; z-index: 1; }
@@ -378,8 +381,10 @@ body {
   background: #fdfdfd; padding: 12px 12px 40px; border-radius: 4px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(0,0,0,0.05);
   transition: transform 0.4s var(--spring);
-  cursor: zoom-in;
+  cursor: pointer;
   position: relative;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 .polaroid::before {
   content: '';
