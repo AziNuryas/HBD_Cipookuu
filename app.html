@@ -28,29 +28,30 @@
   <!-- ===== APP MAIN ===== -->
   <div id="app" class="screen">
 
-    <div id="bg-decorations"></div>
+    <!-- bg-decorations: JS fills this, hidden on mobile via CSS -->
+    <div id="bg-decorations" style="pointer-events:none;"></div>
 
     <!-- Navbar / Dock -->
-    <header class="os-dock-wrap">
-      <nav class="os-dock" id="topTabs">
-        <button class="dock-btn active" data-view="diary">
+    <header class="os-dock-wrap" style="pointer-events:auto;">
+      <nav class="os-dock" id="topTabs" style="pointer-events:auto;">
+        <button class="dock-btn active" data-view="diary" style="pointer-events:auto;touch-action:manipulation;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
           <span>Diary</span>
         </button>
-        <button class="dock-btn" data-view="timeline">
+        <button class="dock-btn" data-view="timeline" style="pointer-events:auto;touch-action:manipulation;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <span>Timeline</span>
         </button>
-        <a href="games.html" class="dock-btn" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:6px;">
+        <a href="games.html" class="dock-btn" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:6px;pointer-events:auto;touch-action:manipulation;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="15" cy="13" r="1"/><circle cx="18" cy="11" r="1"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
           <span>Games</span>
         </a>
       </nav>
-      <div class="dock-actions">
-        <button class="dock-icon" id="musicBtn" title="Toggle Music">
+      <div class="dock-actions" style="pointer-events:auto;">
+        <button class="dock-icon" id="musicBtn" title="Toggle Music" style="pointer-events:auto;touch-action:manipulation;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
         </button>
-        <button class="dock-icon" id="adminBtn" title="Settings / Edit Data">
+        <button class="dock-icon" id="adminBtn" title="Settings / Edit Data" style="pointer-events:auto;touch-action:manipulation;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         </button>
       </div>
@@ -84,12 +85,12 @@
               <div class="hole"></div>
             </div>
 
-            <!-- Cute Scrapbook Stickers (Hello Kitty vibe) -->
-            <div class="scrapbook-sticker sticker-kitty-top-left" title="Hello Kitty">🎀🐱</div>
-            <div class="scrapbook-sticker sticker-bow-top-right" title="Pretty Bow">🎀</div>
-            <div class="scrapbook-sticker sticker-bear-bottom-left" title="Teddy Bear">🧸</div>
-            <div class="scrapbook-sticker sticker-strawberry-bottom-right" title="Strawberry">🍓</div>
-            <div class="scrapbook-sticker sticker-candy-mid" title="Candy">🍭</div>
+            <!-- Stickers: only shown on desktop (CSS hides on mobile) -->
+            <div class="scrapbook-sticker sticker-kitty-top-left" style="pointer-events:none;">🎀🐱</div>
+            <div class="scrapbook-sticker sticker-bow-top-right" style="pointer-events:none;">🎀</div>
+            <div class="scrapbook-sticker sticker-bear-bottom-left" style="pointer-events:none;">🧸</div>
+            <div class="scrapbook-sticker sticker-strawberry-bottom-right" style="pointer-events:none;">🍓</div>
+            <div class="scrapbook-sticker sticker-candy-mid" style="pointer-events:none;">🍭</div>
 
             <h2 class="scrapbook-title">Our Memories ✨</h2>
             <div class="paper-watermark">PREMIUM VINTAGE SCRAPBOOK • EST. 1998</div>
@@ -111,10 +112,11 @@
               <div class="hole"></div>
               <div class="hole"></div>
             </div>
-            
-            <div class="scrapbook-sticker sticker-kitty-top-left">🎀🐱</div>
-            <div class="scrapbook-sticker sticker-bow-top-right">🎀</div>
-            <div class="scrapbook-sticker sticker-bear-bottom-left">🧸</div>
+
+            <!-- Stickers: only shown on desktop (CSS hides on mobile) -->
+            <div class="scrapbook-sticker sticker-kitty-top-left" style="pointer-events:none;">🎀🐱</div>
+            <div class="scrapbook-sticker sticker-bow-top-right" style="pointer-events:none;">🎀</div>
+            <div class="scrapbook-sticker sticker-bear-bottom-left" style="pointer-events:none;">🧸</div>
 
             <h2 class="scrapbook-title">Our Journey ✨</h2>
             <div class="paper-watermark">PREMIUM VINTAGE SCRAPBOOK • EST. 1998</div>

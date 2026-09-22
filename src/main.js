@@ -213,9 +213,9 @@ function initDecorations() {
     const isDark = Math.random() > 0.6;
     
     container.innerHTML += `
-      <div class="deco-wrap" style="top:${top}%; left:${left}%; animation-delay:${del};">
-        <div class="bg-polaroid ${isDark ? 'dark' : ''}" style="--rot:${rot}; --scl:${scl}; --dur:${dur}; animation-delay:${phase};">
-          <img src="${BG_PHOTOS[i]}" loading="lazy"/>
+      <div class="deco-wrap" style="top:${top}%; left:${left}%; animation-delay:${del}; pointer-events:none;">
+        <div class="bg-polaroid ${isDark ? 'dark' : ''}" style="--rot:${rot}; --scl:${scl}; --dur:${dur}; animation-delay:${phase}; pointer-events:none;">
+          <img src="${BG_PHOTOS[i]}" loading="lazy" style="pointer-events:none;"/>
         </div>
       </div>
     `;
@@ -239,8 +239,8 @@ function initDecorations() {
     const left = slot.c * 33 + (Math.random() * 15 + 5);
     
     container.innerHTML += `
-      <div class="deco-wrap" style="top:${top}%; left:${left}%; animation-delay:${del};">
-        <div class="cute-sticker" style="--rot:${rot}; --scl:${scl}; --size:${size}; --dur:${dur}; animation-delay:${phase};">${emoji}</div>
+      <div class="deco-wrap" style="top:${top}%; left:${left}%; animation-delay:${del}; pointer-events:none;">
+        <div class="cute-sticker" style="--rot:${rot}; --scl:${scl}; --size:${size}; --dur:${dur}; animation-delay:${phase}; pointer-events:none;">${emoji}</div>
       </div>
     `;
   }
