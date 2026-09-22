@@ -66,7 +66,7 @@ body {
    CANVAS
 ============================================================ */
 #bgCanvas {
-  position: fixed; inset: 0; z-index: 1;
+  position: fixed; inset: 0; z-index: -1;
   pointer-events: none; width:100%; height:100%;
 }
 
@@ -239,15 +239,17 @@ body {
    VIEWS CONTAINER
 ============================================================ */
 .views-wrap {
-  position: fixed; inset: 0; z-index: 10; /* Ensures canvas is always ON TOP of decorations */
+  position: fixed; inset: 0; z-index: 10;
 }
 .view {
   position: absolute; inset: 0;
   opacity: 0; pointer-events: none;
-  overflow-y: auto; overflow-x: hidden;
+  overflow-y: scroll; overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
-  overscroll-behavior-y: bounce;
+  overscroll-behavior-y: contain;
+  /* Ensure it's a proper native scroll container */
+  will-change: scroll-position;
 }
 /* View Transitions */
 .view.active {
@@ -798,70 +800,124 @@ body {
 .admin-btn-save:active { transform: scale(0.98); }
 
 @media (max-width: 900px) {
-  /* 1. Hide floating background decorations on mobile */
+  /* === NUCLEAR MOBILE FIX: Disable everything that blocks native touch === */
+  
+  /* 1. Kill canvas & decorations - they're the #1 touch blockers */
+  #bgCanvas { display: none !important; }
   #bg-decorations { display: none !important; }
+  #bg-root { display: none !important; }
   
-  /* 2. Disable pointer-events on stickers to prevent touch blocking */
-  .scrapbook-sticker, .corner-sticker { pointer-events: none !important; }
-  
-  /* 3. Disable GPU layer locks on mobile photos */
-  .polaroid::before { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
-  .photobooth-strip { transform: none !important; }
-  .photobooth-strip:hover { transform: none !important; }
-  
-  /* 4. Enforce pan-y touch action across all layout containers */
-  html, body, #app, .screen, .views-wrap, .view, .view-content,
-  .diary-widget-wrap, .page-stage, .diary-page, .scrapbook-paper,
-  .photo-grid, .polaroid, .pol-img, .photobooth-grid, .photobooth-strip {
-    touch-action: pan-y !important;
-    -webkit-tap-highlight-color: transparent;
+  /* 2. Kill ALL backdrop-filters - these create GPU compositing layers that capture touch */
+  .os-dock, .dock-icon, .polaroid::before, .bg-polaroid::before,
+  .modal-overlay {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
   
-  .os-dock-wrap { top: 10px; padding: 0 8px; }
-  .os-dock { gap: 2px; padding: 4px 6px; }
-  .dock-btn { padding: 8px 10px; font-size: 12px; gap: 4px; }
+  /* 3. Kill ALL persistent transforms and animations that lock stacking contexts */
+  .scrapbook-sticker, .corner-sticker,
+  .photobooth-strip, .photobooth-strip:hover,
+  .bg-polaroid, .cute-sticker,
+  .deco-wrap {
+    animation: none !important;
+    transform: none !important;
+    pointer-events: none !important;
+  }
+  .view.active { animation: none !important; }
+  .diary-page.p-enter-right, .diary-page.p-enter-left { animation: none !important; }
+  
+  /* 4. Force proper native scroll container */
+  html, body { overflow: hidden !important; touch-action: none; }
+  .views-wrap { 
+    position: fixed !important; inset: 0 !important; z-index: 10 !important;
+    overflow: hidden !important;
+  }
+  .view {
+    position: absolute !important; inset: 0 !important;
+    overflow-y: scroll !important; overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+    overscroll-behavior-y: contain !important;
+    pointer-events: none !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+  .view.active {
+    pointer-events: auto !important;
+    opacity: 1 !important;
+  }
+  
+  /* 5. Ensure all interactive content inside view is touchable */
+  .view-content {
+    width: 100% !important;
+    padding: 72px 12px 40px !important;
+    pointer-events: auto !important;
+    touch-action: pan-y !important;
+    transform: none !important;
+  }
+  .diary-page, .diary-page.p-active, .page-stage, .diary-widget-wrap,
+  .page-body, .page-title, .page-meta, .photo-grid, .polaroid,
+  .diary-nav, .page-dots, .dot, .scrapbook-paper,
+  .photobooth-grid, .photobooth-strip, .photobooth-strip img,
+  button, a, input, textarea, .admin-page-card {
+    pointer-events: auto !important;
+    touch-action: pan-y !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .polaroid { cursor: pointer !important; }
+  .dot { cursor: pointer !important; }
+  
+  /* 6. Navbar */
+  .os-dock-wrap { top: 10px; padding: 0 8px; z-index: 999; }
+  .os-dock { gap: 2px; padding: 4px 6px; pointer-events: auto !important; }
+  .dock-btn { padding: 8px 10px; font-size: 12px; gap: 4px; pointer-events: auto !important; }
   .dock-btn span { font-size: 11px; }
   .dock-btn svg { width: 16px; height: 16px; }
-  .dock-icon { width: 38px; height: 38px; }
+  .dock-icon { width: 38px; height: 38px; pointer-events: auto !important; }
   
-  .view-content { width: 100%; padding: 70px 10px 30px; }
-  .diary-page { padding: 20px 14px; border-radius: 18px; }
-  .page-title { font-size: 22px; margin-bottom: 8px; }
+  /* 7. Diary layout */
+  .diary-page { padding: 20px 14px !important; border-radius: 18px !important; }
+  .diary-split-layout { flex-direction: column !important; }
+  .page-title { font-size: 20px; margin-bottom: 8px; }
   .page-body { font-size: 15px; line-height: 1.7; margin-bottom: 16px; }
   .hb-title { font-size: 32px; }
   
-  /* Mobile prev & next button positioning */
+  /* 8. Arrow buttons - big and on top */
   .os-btn-icon.side-arrow {
-    width: 44px; height: 44px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
-    z-index: 100 !important;
+    width: 44px !important; height: 44px !important;
+    z-index: 200 !important;
     pointer-events: auto !important;
-    cursor: pointer;
+    touch-action: manipulation !important;
+    cursor: pointer !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
   }
-  #prevBtn { left: 0px; }
-  #nextBtn { right: 0px; }
+  #prevBtn { left: 2px !important; }
+  #nextBtn { right: 2px !important; }
   
-  /* Larger hitboxes for page dots on mobile */
-  .page-dots { gap: 10px; padding: 10px 0; }
-  .dot {
-    width: 12px; height: 12px; border-radius: 6px;
-    pointer-events: auto !important;
-    cursor: pointer;
-  }
-  .dot.active { width: 32px; }
+  /* 9. Larger page dots */
+  .page-dots { gap: 12px; padding: 12px 0; }
+  .dot { width: 12px !important; height: 12px !important; border-radius: 6px !important; }
+  .dot.active { width: 32px !important; }
   
+  /* 10. Photos */
   .photo-grid { gap: 12px; }
-  .polaroid { padding: 8px 8px 24px; max-width: 100%; pointer-events: auto !important; }
-  .polaroid::before { width: 45px; height: 16px; top: -8px; }
+  .polaroid { padding: 8px 8px 24px; max-width: 100%; }
+  .polaroid::before { display: none; }
   
-  .photobooth-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
+  /* 11. Photobooth */
+  .photobooth-grid { grid-template-columns: 1fr; gap: 16px; }
   
+  /* 12. Admin */
   .admin-photos { grid-template-columns: 1fr; }
   .memo-board { gap: 8px; }
   .memo-card { font-size: 24px; }
+  
+  /* 13. Scrapbook paper - no transform breakout on mobile */
+  .scrapbook-paper { transform: none !important; width: 100% !important; left: 0 !important; }
 }
 
 /* ============================================================
