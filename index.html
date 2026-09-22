@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Happy Birthday ✨</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='32' font-size='32'>🎂</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+  <!-- Background Parallax Layers -->
+  <div id="bg-root">
+    <div id="bg-grad"></div>
+    <div class="blob" id="blob1"></div>
+    <div class="blob" id="blob2"></div>
+    <div class="blob" id="blob3"></div>
+  </div>
+
+  <!-- Canvas High-DPI -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Progress Bar (OS Style) -->
+  <div id="osProgressWrap"><div id="osProgressBar"></div></div>
+
+  <!-- ===== SPLASH SCREEN ===== -->
+  <div id="splash" class="screen">
+    <div class="splash-inner">
+      <div class="splash-art">
+        <img src="https://images.unsplash.com/photo-1530103862676-de889221dd1d?q=80&w=400&auto=format&fit=crop" alt="Party" />
+      </div>
+      <h1 class="hb-title" id="hbTitle">Happy Birthday MBG</h1>
+      <div class="typewriter-row">
+        <span id="twText"></span><span class="tw-caret"></span>
+      </div>
+      
+      <div class="splash-gift-container" id="splashGiftWrap">
+        <div class="splash-gift" id="splashGift">🎁</div>
+        <div class="splash-gift-progress">
+          <div class="splash-gift-bar" id="splashGiftBar"></div>
+        </div>
+        <p class="splash-gift-hint">Ketuk kado berulang kali!</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./src/splash.js"></script>
+</body>
+</html>

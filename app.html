@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Happy Birthday ✨</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='32' font-size='32'>🎂</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+  <!-- Background Parallax Layers -->
+  <div id="bg-root">
+    <div id="bg-grad"></div>
+    <div class="blob" id="blob1"></div>
+    <div class="blob" id="blob2"></div>
+    <div class="blob" id="blob3"></div>
+  </div>
+
+  <!-- Canvas High-DPI -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Progress Bar (OS Style) -->
+  <div id="osProgressWrap"><div id="osProgressBar"></div></div>
+
+  <!-- ===== APP MAIN ===== -->
+  <div id="app" class="screen">
+
+    <div id="bg-decorations"></div>
+
+    <!-- Navbar / Dock -->
+    <header class="os-dock-wrap">
+      <nav class="os-dock" id="topTabs">
+        <button class="dock-btn active" data-view="diary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span>Diary</span>
+        </button>
+        <button class="dock-btn" data-view="timeline">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Timeline</span>
+        </button>
+        <a href="games.html" class="dock-btn" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:6px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="15" cy="13" r="1"/><circle cx="18" cy="11" r="1"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+          <span>Games</span>
+        </a>
+      </nav>
+      <div class="dock-actions">
+        <button class="dock-icon" id="musicBtn" title="Toggle Music">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </button>
+        <button class="dock-icon" id="adminBtn" title="Settings / Edit Data">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Views Container -->
+    <main class="views-wrap">
+
+      <!-- DIARY VIEW -->
+      <div class="view active" id="view-diary">
+        <div class="view-content">
+          <div class="diary-widget-wrap">
+            <button class="os-btn-icon side-arrow" id="prevBtn" aria-label="Previous Page">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="page-stage" id="pageStage"></div>
+            <button class="os-btn-icon side-arrow" id="nextBtn" aria-label="Next Page">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+          
+          <div class="diary-nav">
+            <div class="page-dots" id="pageDots"></div>
+          </div>
+          
+          <div class="scrapbook-paper">
+            <div class="fold top-right"></div>
+            <div class="binder-holes">
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+            </div>
+
+            <!-- Cute Scrapbook Stickers (Hello Kitty vibe) -->
+            <div class="scrapbook-sticker sticker-kitty-top-left" title="Hello Kitty">🎀🐱</div>
+            <div class="scrapbook-sticker sticker-bow-top-right" title="Pretty Bow">🎀</div>
+            <div class="scrapbook-sticker sticker-bear-bottom-left" title="Teddy Bear">🧸</div>
+            <div class="scrapbook-sticker sticker-strawberry-bottom-right" title="Strawberry">🍓</div>
+            <div class="scrapbook-sticker sticker-candy-mid" title="Candy">🍭</div>
+
+            <h2 class="scrapbook-title">Our Memories ✨</h2>
+            <div class="paper-watermark">PREMIUM VINTAGE SCRAPBOOK • EST. 1998</div>
+            <div class="photobooth-grid" data-photobooth-container></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIMELINE VIEW -->
+      <div class="view" id="view-timeline">
+        <div class="view-content slim">
+          <h2 class="view-title">Journey</h2>
+          <div class="timeline" id="tlList"></div>
+
+          <div class="scrapbook-paper">
+            <div class="fold top-right"></div>
+            <div class="binder-holes">
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+            </div>
+            
+            <div class="scrapbook-sticker sticker-kitty-top-left">🎀🐱</div>
+            <div class="scrapbook-sticker sticker-bow-top-right">🎀</div>
+            <div class="scrapbook-sticker sticker-bear-bottom-left">🧸</div>
+
+            <h2 class="scrapbook-title">Our Journey ✨</h2>
+            <div class="paper-watermark">PREMIUM VINTAGE SCRAPBOOK • EST. 1998</div>
+            <div class="photobooth-grid" data-photobooth-container></div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- ADMIN VIEW -->
+      <div class="view" id="view-admin">
+        <div class="view-content slim">
+          <h2 class="view-title">Settings</h2>
+          <div id="adminFormContainer"></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  <div id="modal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
