@@ -149,7 +149,13 @@ function renderDiaryPage(idx, dir) {
       updateHeight();
       setTimeout(updateHeight, 100);
       setTimeout(updateHeight, 350);
-      setTimeout(updateHeight, 750);
+      setTimeout(() => {
+        updateHeight();
+        // Clear explicit inline height so stage flows 100% naturally with active page
+        if (stage && el.classList.contains('p-active')) {
+          stage.style.height = '';
+        }
+      }, 700);
 
       // Recalculate height when images load on mobile
       el.querySelectorAll('img').forEach(img => {
