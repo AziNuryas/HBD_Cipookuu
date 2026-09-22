@@ -4,46 +4,46 @@
 
 const DEFAULT_DIARY = [
   {
-    num: '01', date: 'Hari Paling Spesial',
-    title: 'Selamat Ulang Tahun! ✨',
-    body: 'Hari ini adalah hari di mana dunia menjadi tempat yang lebih baik karena kamu lahir. Mungkin bagi dunia ini hanyalah tanggal biasa, tapi bagiku, ini adalah perayaan atas eksistensi seseorang yang luar biasa. Harapanku di hari ulang tahunmu ini sederhana: semoga kamu dikelilingi oleh cinta yang tulus, kedamaian hati yang tak pernah putus, dan alasan untuk tersenyum setiap harinya. Kamu sangat berharga, jangan pernah lupakan itu.',
+    num: '01', date: 'Hari Paling Spesial 💖',
+    title: 'Selamat Ulang Tahun! My Girl My Cipoo My Binii 😖',
+    body: 'Selamat ulang tahun yaaa ayanggg g kerasa skrg kamu udh smpe di titik inii yaa udh mulai kerjaa udh punya kesibukan sendiri jugaa 🥹 aku senengg bgt bisa liat kamu smpe sejauh inii apalagi setelah semua yg udh kamu lewatin. Skrg kita jg lg mulai ngerasain LDR dan sama² punya kesibukan masing² tapi semogaa kita tetep bisa saling nyempetin dan ga jadi makin jauhh yaa 🫶🏻 pokoknyaa di umur kamu yg baruu ini semogaa banyak hal baikk yg dateng ke kamu dan apa yg kamu usahain selama ini bisa satu² tercapaii 🤍 jangan lupa jaga diri, jangan terlalu capekk dan tetep jadi bubub aku yg aku kenall. Selamat ulang tahun lagii ayangggg aku sayanggg bgt sama kamuuu, lopyuuu sejutaaa miliyaaarrr muachhh 😚',
     photos: [
-      { img: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400&h=400&fit=crop', c: 'Make a wish' },
-      { img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=400&fit=crop', c: 'Celebrate you' },
+      { img: 'https://i.postimg.cc/cJCQLqQG/20dcb442f1480db2c5cd2abd0cef02c9-0.jpg', c: 'Make a wish' },
+      { img: 'https://i.postimg.cc/g2DD0qQR/b2f295b986f4266ae705d66c0caddf94-0.jpg', c: 'Celebrate you' },
     ],
   },
   {
-    num: '02', date: 'Mengenang Masa Lalu',
+    num: '02', date: 'Mengenang Masa Lalu 🤍',
     title: 'Jejak Langkah Kita',
-    body: 'Kalau kita menengok ke belakang, rasanya gila melihat seberapa jauh kita sudah melangkah. Dari sekadar obrolan receh, tawa sampai perut sakit, hingga momen-momen di mana kita cuma bisa diam dan saling menguatkan. Setiap detik yang kita bagi adalah kenangan yang diam-diam aku simpan rapi di memori paling berharga. Terima kasih sudah menjadi partner cerita yang nggak pernah menghakimi.',
+    body: 'Klo ngeliat perjalanan kita smpe skrg, ternyata udh bnyakk bgt yg kita lewatin barengg. Bkn cuma momen seneng² ajaa, tp ada jg masalah, salah paham, kecewaa, sampe beberapa kali kita hampir kehilangan satu sama lain 🥹\n\nTp dari semua itu, aku harap kita bisa sama² belajar buat lebih ngerti satu sama lain, lebih bisa maafin, dan ga terus kebawa sama hal² yg udh lewat. Semogaa kedepannya kita bisa sama² jadi lebih baik, terus maju, dan tetep jadi kitaa 🤍\n\nMakasih yaa ayanggg udh bertahan sejauh iniii, udh nemenin aku sampe sekarangg. Aku sayanggg bgt sama kamuuu 🫶🏻❤️',
     photos: [
-      { img: 'https://images.unsplash.com/photo-1473496169904-658ba37448eb?w=400&h=400&fit=crop', c: 'Summer breeze' },
-      { img: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=400&fit=crop', c: 'Quiet moments' },
+      { img: 'https://i.postimg.cc/s2MhRYrK/2027e6929a7f31d908ce58d0f3ee1424-0.jpg', c: 'Summer breeze' },
+      { img: 'https://i.postimg.cc/QdtBpQV0/IMG-20260605-WA0037.jpg', c: 'Quiet moments' },
     ],
   },
   {
     num: '03', date: 'Momen Spesial 🤍',
-    title: 'Kamu Hebat!',
-    body: 'Aku tahu tahun lalu mungkin nggak selalu mulus. Ada tangis, ada kecewa, ada malam-malam panjang di mana kamu merasa sendirian. Tapi lihatlah dirimu sekarang, kamu berhasil melewatinya! Keberanianmu untuk terus bangun setiap pagi dan mencoba lagi adalah hal yang paling menginspirasi darimu. Berbanggalah pada dirimu sendiri, karena aku pun sangat bangga padamu.',
+    title: 'Cayang Kamu Hebat! 🤍',
+    body: 'Sayanggg, kamu hebatt bgt udh bisa sampee di titik iniii 🥹 Dari awal kita ketemu pas kamu masih maba, sampe sekarang kamu udh lulus, udh punya kerjaan sendiri, dan mulai ngejalanin hidup kamu sendirii.\n\nAku tauu pasti ga gampang buat sampe sini. Banyak capeknyaa, banyak hal yg harus kamu lewatin sendirian, apalagi kadang aku jg ga bisa ada pas kamu lagi butuh aku. Tapi kamu tetep bisa lewatin semuanya dan terus majuu.\n\nAku bener² bangga sama kamu, bububbb Jangan lupa liat sejauh apa kamu udh berjalan yaa, kamu udh sejauh iniii bukan karena kebetulan, tapi karena kamu emg sekuat ituuu 🫂',
     photos: [
-      { img: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400&h=400&fit=crop', c: 'Keep walking' },
+      { img: 'https://i.postimg.cc/Wb9zbdS0/IMG-20260704-WA0020.jpg', c: 'Keep walking' },
     ],
   },
   {
     num: '04', date: 'Doa Untukmu ✨',
     title: 'Harapan ke Depan',
-    body: 'Semoga di usiamu yang baru ini, langkahmu semakin mantap. Semoga pintu-pintu kesempatan yang selama ini tertutup perlahan terbuka. Jangan takut bermimpi besar, karena kamu punya segala potensi untuk mewujudkannya. Dan apapun rintangan yang datang nanti, ingatlah bahwa kamu punya orang-orang yang akan selalu pasang badan mendukungmu dari belakang.',
+    body: 'Semogaa di umur kamu yg baruu ini banyak hal baik yg dateng ke kamu yaa ayanggg semoga kerjaan kamu lancarr, apa yg kamu pengen pelan² bisa kecapaii dan kamu bisa nikmatin hasil dari semua yg udh kamu usahain selama inii\n\nPokoknya semogaa kedepannya kamu makin bahagiaa, makin banyak hal seru yg bisa kamu rasain dan jangan lupa nikmatin prosesnyaa jugaa semoga tahun ini jadi tahun yg lebih baikk buat kamu dan buat kitaa 🫶🏻',
     photos: [
-      { img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=400&fit=crop', c: 'New horizons' },
-      { img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&h=400&fit=crop', c: 'Reach the stars' },
+      { img: 'https://i.postimg.cc/Bv2JDb5h/IMG-20260514-WA0027.webp', c: 'New horizons' },
+      { img: 'https://i.postimg.cc/qqvr9Lf4/IMG-20260514-WA0029.webp', c: 'Reach the stars' },
     ],
   },
   {
-    num: '05', date: 'Babak Baru 🥂',
-    title: 'Cheers to You!',
-    body: 'Ini bukan akhir cerita, melainkan awal dari babak baru yang jauh lebih seru. Mari rayakan hari ini dengan sukacita. Makan makanan enak, istirahat dari beban pikiran, dan nikmati waktu untuk dirimu sendiri. Happy Birthday, may this year treat you so much better than the last!',
+    num: '05', date: 'Spesial Untukmu 💖',
+    title: 'Untuk Cipoo Tersayang ✨',
+    body: 'Pokoknyaa hari ini nikmatin duluu hari kamu yaa ayanggg makan yg enakk, jangan mikirin yg berat² duluu dan semogaa di umur yg baruu ini lebih banyak hal yg bikin kamu senengg\n\nSekali lagii selamat ulang tahun bububbb semogaa tahun ini jadi tahun yg lebih baikk buat kamu, buat aku dan buat kitaa 🫶🏻\n\nmaaf ngk bisa nemenin langsung ayangg ...I loveee youuu sejutaa milyyraann for yuu ❤️❤️',
     photos: [
-      { img: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&h=400&fit=crop', c: 'To a new chapter' },
+      { img: 'https://i.postimg.cc/k5Pmn9rK/IMG-20260818-WA0014.webp', c: 'To a new chapter' },
     ],
   }
 ];
@@ -65,16 +65,16 @@ export function saveDiaryPages(data) {
 }
 
 const DEFAULT_BG_PHOTOS = [
-  'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1473496169904-658ba37448eb?w=400&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=400&fit=crop'
+  'https://i.postimg.cc/W3CRHP7q/IMG-20260717-213439-526.webp',
+  'https://i.postimg.cc/Pfw05943/5e85c224a5fabaa10c6ecb16f394491d-0.webp',
+  'https://i.postimg.cc/t45KH659/e86721832bc88532cc034d8cfca936cd-0.webp',
+  'https://i.postimg.cc/3xThhYQZ/IMG-20260717-213431-607.webp'
 ];
 
 export function getBgPhotos() {
   const stored = localStorage.getItem('birthday_bg_photos');
   if (stored) {
-    try { return JSON.parse(stored); } catch (e) {}
+    try { return JSON.parse(stored); } catch (e) { }
   }
   return [...DEFAULT_BG_PHOTOS];
 }
@@ -97,26 +97,26 @@ export function saveMusicUrl(url) {
 
 const DEFAULT_PHOTOBOOTH_STRIPS = [
   [
-    'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=300&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=300&h=400&fit=crop'
+    'https://i.postimg.cc/7YC80bwK/IMG-20260721-WA0006.webp',
+    'https://i.postimg.cc/fbf6D9fV/IMG-20260713-WA0002.webp',
+    'https://i.postimg.cc/T1pSVHMG/IMG-20260709-WA0019.jpg',
   ],
   [
-    'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=300&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=300&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1530103862676-de889221dd1d?w=300&h=400&fit=crop'
+    'https://i.postimg.cc/ZKmsKR09/1750010649164.webp',
+    'https://i.postimg.cc/Pfw05943/5e85c224a5fabaa10c6ecb16f394491d-0.webp',
+    'https://i.postimg.cc/ZKmsKR09/1750010649164.webp'
   ],
   [
-    'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?w=300&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=300&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=300&h=400&fit=crop'
+    'https://i.postimg.cc/Nj9H38YL/1a39f3a6451ec82d07c0e3bda7f633c7-0.jpg',
+    'https://i.postimg.cc/MHpcdVdj/62b33f61579ee6c93d37ac3bec9d4f0a-0.jpg',
+    'https://i.postimg.cc/5tW6DZsx/0abe74f8a6f87dee963828e25deb388a-0.jpg'
   ]
 ];
 
 export function getPhotoboothStrips() {
   const stored = localStorage.getItem('birthday_photobooth_strips');
   if (stored) {
-    try { return JSON.parse(stored); } catch (e) {}
+    try { return JSON.parse(stored); } catch (e) { }
   }
   return JSON.parse(JSON.stringify(DEFAULT_PHOTOBOOTH_STRIPS));
 }
