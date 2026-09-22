@@ -132,11 +132,25 @@ function renderDiaryPage(idx, dir) {
   el.innerHTML = buildPageHTML(DIARY_PAGES[idx]);
   stage.appendChild(el);
 
+  const updateHeight = () => {
+    if (el && stage) {
+      stage.style.height = Math.max(el.scrollHeight, el.offsetHeight) + 'px';
+    }
+  };
+
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       el.classList.remove('p-enter-right', 'p-enter-left');
       el.classList.add('p-active');
-      setTimeout(() => { stage.style.height = el.scrollHeight + 'px'; }, 50);
+      updateHeight();
+      setTimeout(updateHeight, 150);
+      setTimeout(updateHeight, 400);
+
+      // Recalculate height when images load on mobile
+      el.querySelectorAll('img').forEach(img => {
+        if (img.complete) updateHeight();
+        else img.addEventListener('load', updateHeight, { once: true });
+      });
     });
   });
 
