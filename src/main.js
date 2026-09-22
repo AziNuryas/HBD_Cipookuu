@@ -134,7 +134,8 @@ function renderDiaryPage(idx, dir) {
 
   const updateHeight = () => {
     if (el && stage) {
-      stage.style.height = Math.max(el.scrollHeight, el.offsetHeight) + 'px';
+      const h = Math.max(el.scrollHeight, el.offsetHeight, el.getBoundingClientRect().height);
+      if (h > 0) stage.style.height = h + 'px';
     }
   };
 
@@ -143,8 +144,9 @@ function renderDiaryPage(idx, dir) {
       el.classList.remove('p-enter-right', 'p-enter-left');
       el.classList.add('p-active');
       updateHeight();
-      setTimeout(updateHeight, 150);
-      setTimeout(updateHeight, 400);
+      setTimeout(updateHeight, 100);
+      setTimeout(updateHeight, 350);
+      setTimeout(updateHeight, 750);
 
       // Recalculate height when images load on mobile
       el.querySelectorAll('img').forEach(img => {
@@ -347,11 +349,11 @@ if (stage) {
 function evaluateSwipe(isTouch) {
   const deltaX = endX - startX;
   const deltaY = endY - startY;
-  // Threshold lebih tinggi untuk sentuhan (60px) agar tap biasa tidak memicu pindah halaman
-  const swipeThreshold = isTouch ? 60 : 45;
+  // Threshold jauh lebih aman (85px di mobile) agar scrolling vertikal & tap foto tidak kepencet swipe
+  const swipeThreshold = isTouch ? 85 : 50;
   
-  // Memastikan gerakan memang swipe horizontal yang kuat (bukan tap biasa atau scroll vertikal)
-  if (Math.abs(deltaX) > Math.abs(deltaY) * 1.5 && Math.abs(deltaX) > swipeThreshold) {
+  // Memastikan gerakan memang swipe horizontal murni (deltaX jauh lebih besar dari deltaY)
+  if (Math.abs(deltaX) > Math.abs(deltaY) * 2.5 && Math.abs(deltaX) > swipeThreshold) {
     if (deltaX < 0) {
       navigate(1);  // Swipe Kiri -> Halaman Berikutnya
     } else {

@@ -21,7 +21,7 @@
    RESET
 ============================================================ */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html, body { width:100%; height:100%; overflow:hidden; }
+html, body { width:100%; height:100%; overflow:hidden; touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
 body {
   font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
   color: var(--text);
@@ -111,7 +111,7 @@ body {
 }
 @keyframes appFadeIn {
   from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
+  to   { opacity: 1; transform: none; }
 }
 
 /* ============================================================
@@ -246,6 +246,8 @@ body {
   opacity: 0; pointer-events: none;
   overflow-y: auto; overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior-y: bounce;
 }
 /* View Transitions */
 .view.active {
@@ -257,7 +259,7 @@ body {
 }
 @keyframes fadeScaleIn {
   from { opacity: 0; transform: scale(0.97) translateY(10px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
+  to   { opacity: 1; transform: none; }
 }
 @keyframes fadeScaleOut {
   from { opacity: 1; transform: scale(1); }
@@ -265,9 +267,10 @@ body {
 }
 
 .view-content {
-  width: calc(100% - 120px); max-width: 1300px; margin: 0 auto;
-  padding: 100px 20px 80px; box-sizing: border-box;
+  width: 100%; max-width: 1200px; margin: 0 auto;
+  padding: 90px 16px 60px; box-sizing: border-box;
   position: relative; pointer-events: auto;
+  touch-action: pan-y;
 }
 .view-content::-webkit-scrollbar { width: 0; }
 .view-content.slim { max-width: 600px; }
@@ -308,10 +311,14 @@ body {
   transform-style: preserve-3d;
   transform-origin: left center;
   backface-visibility: hidden;
+  touch-action: pan-y;
 }
 .diary-page.p-active {
   opacity: 1; pointer-events: auto; position: relative; z-index: 2;
   transform: none !important;
+  transform-style: flat !important;
+  backface-visibility: visible !important;
+  filter: none !important;
 }
 .diary-page.p-enter-right { animation: pBookTurnInRight 0.75s cubic-bezier(0.2, 0.8, 0.25, 1) forwards; }
 .diary-page.p-enter-left  { animation: pBookTurnInLeft 0.75s cubic-bezier(0.2, 0.8, 0.25, 1) forwards; }
@@ -320,11 +327,11 @@ body {
 
 @keyframes pBookTurnInRight {
   from { opacity: 0; transform: rotateY(-80deg) scale(0.94); filter: brightness(0.9); }
-  to   { opacity: 1; transform: rotateY(0deg) scale(1); filter: brightness(1); }
+  to   { opacity: 1; transform: none; filter: none; }
 }
 @keyframes pBookTurnInLeft {
   from { opacity: 0; transform: rotateY(80deg) scale(0.94); filter: brightness(0.9); }
-  to   { opacity: 1; transform: rotateY(0deg) scale(1); filter: brightness(1); }
+  to   { opacity: 1; transform: none; filter: none; }
 }
 @keyframes pBookTurnOutLeft {
   from { opacity: 1; transform: rotateY(0deg) scale(1); filter: brightness(1); }
@@ -357,11 +364,11 @@ body {
 
 @keyframes textReveal {
   from { opacity: 0; transform: translateY(15px) scale(0.98); filter: blur(4px); }
-  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  to   { opacity: 1; transform: none; filter: none; }
 }
 @keyframes popInStamp {
   from { opacity: 0; transform: scale(0) rotate(-30deg); filter: blur(4px); }
-  to { opacity: 1; transform: scale(1) rotate(10deg); filter: blur(0); }
+  to   { opacity: 1; transform: none; filter: none; }
 }
 
 .corner-sticker {
@@ -614,16 +621,16 @@ body {
    BACKGROUND DECORATIONS (Stickers & Polaroids)
 ============================================================ */
 #bg-decorations {
-  position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
   z-index: 1; pointer-events: none; overflow: hidden;
 }
 .deco-wrap {
-  position: absolute; pointer-events: auto;
+  position: absolute; pointer-events: none;
   animation: decoPopIn 0.8s var(--spring) both;
 }
 @keyframes decoPopIn {
   from { opacity: 0; transform: scale(0) translateY(50px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  to   { opacity: 1; transform: none; }
 }
 
 .cute-sticker {
@@ -857,11 +864,12 @@ body {
     calc(100% - 60px) 10px, 100% 60px, 100% 100%, 0 100%
   );
 
-  /* Full viewport width breakout */
-  width: 100vw;
-  left: 50%;
-  transform: translateX(-50%);
+  /* Full container fit */
+  width: 100%;
+  left: 0;
+  transform: none;
   box-sizing: border-box;
+  border-radius: 16px;
 }
 
 /* Realistic Paper Folds / Wrinkles Overlay */
