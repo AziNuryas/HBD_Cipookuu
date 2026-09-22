@@ -21,7 +21,7 @@
    RESET
 ============================================================ */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html, body { width:100%; height:100%; overflow:hidden; touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
+html, body { width:100%; height:100%; overflow:hidden; }
 body {
   font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
   color: var(--text);
@@ -66,7 +66,7 @@ body {
    CANVAS
 ============================================================ */
 #bgCanvas {
-  position: fixed; inset: 0; z-index: -1;
+  position: fixed; inset: 0; z-index: 1;
   pointer-events: none; width:100%; height:100%;
 }
 
@@ -111,7 +111,7 @@ body {
 }
 @keyframes appFadeIn {
   from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to   { opacity: 1; transform: none; }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 /* ============================================================
@@ -177,7 +177,7 @@ body {
 .os-dock-wrap {
   position: fixed; top: 20px; bottom: auto; left: 0; right: 0;
   display: flex; justify-content: center; align-items: center; gap: 10px;
-  z-index: 300; pointer-events: none;
+  z-index: 200; pointer-events: none;
   padding: 0 16px;
 }
 .os-dock {
@@ -239,17 +239,13 @@ body {
    VIEWS CONTAINER
 ============================================================ */
 .views-wrap {
-  position: fixed; inset: 0; z-index: 10;
+  position: fixed; inset: 0; z-index: 10; /* Ensures canvas is always ON TOP of decorations */
 }
 .view {
   position: absolute; inset: 0;
   opacity: 0; pointer-events: none;
-  overflow-y: scroll; overflow-x: hidden;
+  overflow-y: auto; overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
-  overscroll-behavior-y: contain;
-  /* Ensure it's a proper native scroll container */
-  will-change: scroll-position;
 }
 /* View Transitions */
 .view.active {
@@ -261,7 +257,7 @@ body {
 }
 @keyframes fadeScaleIn {
   from { opacity: 0; transform: scale(0.97) translateY(10px); }
-  to   { opacity: 1; transform: none; }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 @keyframes fadeScaleOut {
   from { opacity: 1; transform: scale(1); }
@@ -269,10 +265,9 @@ body {
 }
 
 .view-content {
-  width: 100%; max-width: 1200px; margin: 0 auto;
-  padding: 90px 16px 60px; box-sizing: border-box;
+  width: calc(100% - 120px); max-width: 1300px; margin: 0 auto;
+  padding: 100px 20px 80px; box-sizing: border-box;
   position: relative; pointer-events: auto;
-  touch-action: pan-y;
 }
 .view-content::-webkit-scrollbar { width: 0; }
 .view-content.slim { max-width: 600px; }
@@ -301,9 +296,6 @@ body {
 ============================================================ */
 .page-stage {
   position: relative; transition: height 0.4s var(--expo);
-  touch-action: pan-y;
-}
-.page-stage.p-turning {
   perspective: 1600px;
   transform-style: preserve-3d;
 }
@@ -313,20 +305,11 @@ body {
   box-shadow: 0 16px 40px rgba(0,0,0,0.08);
   border: 1px solid rgba(220, 220, 220, 0.8);
   opacity: 0; pointer-events: none;
-  transform-origin: left center;
-  touch-action: pan-y;
-}
-.page-stage.p-turning .diary-page {
   transform-style: preserve-3d;
+  transform-origin: left center;
   backface-visibility: hidden;
 }
-.diary-page.p-active {
-  opacity: 1; pointer-events: auto; position: relative; z-index: 2;
-  transform: none !important;
-  transform-style: flat !important;
-  backface-visibility: visible !important;
-  filter: none !important;
-}
+.diary-page.p-active { opacity: 1; pointer-events: auto; position: relative; z-index: 2; transform: rotateY(0deg) scale(1); }
 .diary-page.p-enter-right { animation: pBookTurnInRight 0.75s cubic-bezier(0.2, 0.8, 0.25, 1) forwards; }
 .diary-page.p-enter-left  { animation: pBookTurnInLeft 0.75s cubic-bezier(0.2, 0.8, 0.25, 1) forwards; }
 .diary-page.p-exit-right  { animation: pBookTurnOutRight 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards; z-index: 1; }
@@ -334,11 +317,11 @@ body {
 
 @keyframes pBookTurnInRight {
   from { opacity: 0; transform: rotateY(-80deg) scale(0.94); filter: brightness(0.9); }
-  to   { opacity: 1; transform: none; filter: none; }
+  to   { opacity: 1; transform: rotateY(0deg) scale(1); filter: brightness(1); }
 }
 @keyframes pBookTurnInLeft {
   from { opacity: 0; transform: rotateY(80deg) scale(0.94); filter: brightness(0.9); }
-  to   { opacity: 1; transform: none; filter: none; }
+  to   { opacity: 1; transform: rotateY(0deg) scale(1); filter: brightness(1); }
 }
 @keyframes pBookTurnOutLeft {
   from { opacity: 1; transform: rotateY(0deg) scale(1); filter: brightness(1); }
@@ -371,11 +354,11 @@ body {
 
 @keyframes textReveal {
   from { opacity: 0; transform: translateY(15px) scale(0.98); filter: blur(4px); }
-  to   { opacity: 1; transform: none; filter: none; }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 @keyframes popInStamp {
   from { opacity: 0; transform: scale(0) rotate(-30deg); filter: blur(4px); }
-  to   { opacity: 1; transform: none; filter: none; }
+  to { opacity: 1; transform: scale(1) rotate(10deg); filter: blur(0); }
 }
 
 .corner-sticker {
@@ -395,10 +378,8 @@ body {
   background: #fdfdfd; padding: 12px 12px 40px; border-radius: 4px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(0,0,0,0.05);
   transition: transform 0.4s var(--spring);
-  cursor: pointer;
+  cursor: zoom-in;
   position: relative;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
 }
 .polaroid::before {
   content: '';
@@ -628,16 +609,16 @@ body {
    BACKGROUND DECORATIONS (Stickers & Polaroids)
 ============================================================ */
 #bg-decorations {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
   z-index: 1; pointer-events: none; overflow: hidden;
 }
 .deco-wrap {
-  position: absolute; pointer-events: none;
+  position: absolute; pointer-events: auto;
   animation: decoPopIn 0.8s var(--spring) both;
 }
 @keyframes decoPopIn {
   from { opacity: 0; transform: scale(0) translateY(50px); }
-  to   { opacity: 1; transform: none; }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .cute-sticker {
@@ -799,241 +780,39 @@ body {
 .admin-btn-save:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.2); }
 .admin-btn-save:active { transform: scale(0.98); }
 
-@media (max-width: 900px) {
-  /* ================================================
-     MOBILE MODE — Clean, Touch-First, No GPU Locks
-  ================================================ */
-
-  /* 1. Kill GPU compositing layers and heavy decorations */
-  #bgCanvas { display: none !important; }
-  #bg-root { display: none !important; }
-  #bg-decorations { display: none !important; }
-  .scrapbook-sticker, .corner-sticker, .deco-wrap,
-  .bg-polaroid, .cute-sticker { display: none !important; }
-
-  /* 2. Kill backdrop-filter (creates touch-blocking GPU layers) */
-  .os-dock, .dock-icon, .modal-overlay, .modal-close, .polaroid::before {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+@media (max-width: 650px) {
+  .os-dock-wrap { top: 12px; padding: 0 8px; }
+  .os-dock { gap: 2px; padding: 4px 6px; }
+  .dock-btn { padding: 8px 10px; font-size: 12px; gap: 4px; }
+  .dock-btn span { font-size: 11px; }
+  .dock-btn svg { width: 16px; height: 16px; }
+  .dock-icon { width: 38px; height: 38px; }
+  
+  .view-content { width: 100%; padding: 76px 12px 20px; }
+  .diary-page { padding: 20px 16px; border-radius: 20px; }
+  .hb-title { font-size: 38px; }
+  
+  /* Mobile prev & next button positioning */
+  .os-btn-icon {
+    width: 40px; height: 40px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
   }
-  .os-dock { background: rgba(255,255,255,0.97) !important; }
-  .dock-icon { background: transparent !important; box-shadow: none !important; }
-  .polaroid::before { display: none !important; }
-
-  /* 3. Stop only decorative animations — NOT view transitions */
-  .scrapbook-sticker, .cute-sticker, .bg-polaroid, .deco-wrap,
-  .css-flame, .blob {
-    animation: none !important;
+  #prevBtn { left: 4px; }
+  #nextBtn { right: 4px; }
+  
+  .photo-grid { gap: 16px; }
+  .polaroid { padding: 8px 8px 30px; }
+  .polaroid::before { width: 45px; height: 16px; top: -8px; }
+  
+  .photobooth-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
-  /* Kill 3D perspective/transform on page stage (blocks native touch) */
-  .page-stage { perspective: none !important; transform-style: flat !important; }
-  .page-stage.p-turning { perspective: none !important; transform-style: flat !important; }
-  .diary-page { transform-style: flat !important; backface-visibility: visible !important; }
-  /* Disable page-turn keyframe animations — use simple fade instead */
-  .diary-page.p-enter-right, .diary-page.p-enter-left { animation: none !important; opacity: 1 !important; }
-  .diary-page.p-exit-right, .diary-page.p-exit-left { animation: none !important; }
-  .photobooth-strip { transform: none !important; animation: none !important; }
-  .photobooth-strip:hover { transform: none !important; }
-
-  /* 4. SCROLL CONTAINER — critical for native scroll */
-  html, body { overflow: hidden !important; touch-action: pan-y !important; }
-  .views-wrap { position: fixed !important; inset: 0 !important; overflow: hidden !important; }
-  .view {
-    position: absolute !important; inset: 0 !important;
-    overflow-y: scroll !important; overflow-x: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    touch-action: pan-y !important;
-    pointer-events: none !important;
-    opacity: 0 !important;
-    transform: none !important;
-    /* No animation on view itself — just show/hide */
-    animation: none !important;
-  }
-  .view.active {
-    pointer-events: auto !important;
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none !important;
-  }
-  .view.leaving { animation: none !important; opacity: 0 !important; }
-
-  /* 5. ALL INTERACTIVE ELEMENTS — must pass touch events through */
-  .view-content {
-    pointer-events: auto !important;
-    touch-action: pan-y !important;
-    position: relative !important;
-    z-index: 1 !important;
-  }
-  .diary-page.p-active {
-    pointer-events: auto !important;
-    touch-action: pan-y !important;
-    position: relative !important;
-    z-index: 2 !important;
-  }
-  .diary-page:not(.p-active) {
-    pointer-events: none !important;
-    opacity: 0 !important;
-    position: absolute !important;
-  }
-  /* Tappable buttons, dots, polaroids */
-  button, a, .dock-btn, .dot, .polaroid, .photobooth-strip,
-  .photobooth-strip img, input, textarea, .btn-os, .btn-secondary {
-    pointer-events: auto !important;
-    touch-action: manipulation !important;
-    -webkit-tap-highlight-color: rgba(0,0,0,0.05) !important;
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 5 !important;
-  }
-
-  /* 6. NAVBAR — solid, compact, no blur */
-  .os-dock-wrap {
-    top: 0 !important; left: 0 !important; right: 0 !important;
-    width: 100% !important;
-    padding: 8px 12px !important;
-    border-radius: 0 !important;
-    z-index: 9999 !important;
-    background: #ffffff !important;
-    border-bottom: 1px solid rgba(0,0,0,0.08) !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
-    justify-content: space-between !important;
-    pointer-events: auto !important;
-  }
-  .os-dock {
-    border-radius: 12px !important;
-    gap: 2px !important;
-    padding: 4px !important;
-    background: rgba(0,0,0,0.04) !important;
-    border: none !important;
-    box-shadow: none !important;
-    pointer-events: auto !important;
-  }
-  .dock-btn {
-    padding: 7px 10px !important; font-size: 11px !important; gap: 3px !important;
-    pointer-events: auto !important;
-    touch-action: manipulation !important;
-    z-index: 9999 !important;
-  }
-  .dock-btn span { font-size: 11px !important; }
-  .dock-btn svg { width: 14px !important; height: 14px !important; }
-  .dock-actions { gap: 4px !important; pointer-events: auto !important; }
-
-  /* 7. VIEW CONTENT — full width, proper padding */
-  .view-content {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 68px 0 80px !important;
-    box-sizing: border-box !important;
-  }
-  .view-content.slim { max-width: 100% !important; }
-
-  /* 8. DIARY PAGE — clean card */
-  .diary-widget-wrap { padding: 0 !important; align-items: flex-start !important; }
-  .page-stage { width: 100% !important; padding: 0 12px !important; height: auto !important; }
-  .diary-page {
-    padding: 24px 18px 28px !important;
-    border-radius: 20px !important;
-    margin: 0 !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
-    filter: none !important;
-  }
-  .page-title { font-size: 20px !important; margin-bottom: 10px !important; font-weight: 700 !important; }
-  .page-body { font-size: 14px !important; line-height: 1.75 !important; margin-bottom: 16px !important; }
-  .page-meta { font-size: 11px !important; margin-bottom: 8px !important; }
-  .hb-title { font-size: 28px !important; }
-  /* Kill staggered text animations on mobile */
-  .diary-page.p-active .page-meta,
-  .diary-page.p-active .page-title,
-  .diary-page.p-active .page-body,
-  .diary-page.p-active .photo-grid,
-  .diary-page.p-active .corner-sticker { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; }
-
-  /* 9. HIDE ARROW BUTTONS — swipe only on mobile */
-  .os-btn-icon.side-arrow { display: none !important; }
-
-  /* 10. SWIPE HINT */
-  .diary-page::after {
-    content: '← swipe →';
-    display: block; text-align: center;
-    font-size: 11px; color: rgba(0,0,0,0.25);
-    letter-spacing: 2px; padding-top: 12px; font-family: sans-serif;
-  }
-
-  /* 11. PAGE DOTS — bigger tap targets */
-  .diary-nav { margin-top: 16px !important; padding: 0 12px !important; }
-  .page-dots { gap: 10px !important; }
-  .dot {
-    width: 10px !important; height: 10px !important;
-    border-radius: 5px !important;
-    touch-action: manipulation !important;
-    pointer-events: auto !important;
-  }
-  .dot.active { width: 28px !important; }
-
-  /* 12. PHOTOS — full width, no rotation hover */
-  .photo-grid { flex-direction: column !important; gap: 12px !important; padding: 0 !important; }
-  .polaroid {
-    flex: none !important; width: 100% !important; max-width: 100% !important;
-    padding: 8px 8px 32px !important; border-radius: 4px !important;
-    transform: none !important;
-  }
-  .polaroid:hover, .polaroid:nth-child(even):hover { transform: none !important; }
-  .pol-img { width: 100% !important; height: auto !important; aspect-ratio: 4/3 !important; }
-  .diary-split-layout { flex-direction: column !important; gap: 20px !important; }
-
-  /* 13. SCRAPBOOK / OUR MEMORIES */
-  .scrapbook-paper {
-    transform: none !important; width: 100% !important; left: 0 !important;
-    margin-top: 24px !important; padding: 40px 12px 40px !important;
-    border-radius: 16px !important; clip-path: none !important; filter: none !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
-  }
-  .scrapbook-paper::before { display: none !important; }
-  .fold { display: none !important; }
-  .binder-holes { display: none !important; }
-  .scrapbook-title { font-size: 20px !important; margin-bottom: 16px !important; }
-  .paper-watermark { display: none !important; }
-  .photobooth-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; max-width: 100% !important; }
-  .photobooth-strip {
-    transform: none !important; margin-top: 0 !important;
-    pointer-events: auto !important; touch-action: manipulation !important;
-  }
-  .photobooth-strip img {
-    pointer-events: auto !important; touch-action: manipulation !important;
-    border-radius: 4px !important;
-  }
-
-  /* 14. TIMELINE & WISHES */
-  .view-title { font-size: 24px !important; margin-bottom: 16px !important; }
-  .tl-card { padding: 12px 14px !important; }
-  .tl-item { opacity: 1 !important; transform: none !important; }
-  .wish-item { opacity: 1 !important; transform: none !important; }
-
-  /* 15. ADMIN */
-  .admin-photos { grid-template-columns: 1fr !important; }
-  .admin-page-card { padding: 16px !important; }
-
-  /* 16. MODAL */
-  .modal-box {
-    width: 95% !important; max-width: 95% !important;
-    border-radius: 20px !important; padding: 8px !important;
-    position: fixed !important;
-    top: 50% !important; left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    z-index: 10001 !important;
-    pointer-events: auto !important;
-  }
-  .modal-overlay { pointer-events: auto !important; z-index: 10000 !important; }
-  .modal-overlay.open .modal-box { transform: translate(-50%, -50%) !important; }
-  .modal-img { aspect-ratio: auto !important; max-height: 70vh !important; }
-  .modal-close { pointer-events: auto !important; touch-action: manipulation !important; z-index: 10002 !important; width: 44px !important; height: 44px !important; }
-
-  /* 17. PROGRESS BAR */
-  #osProgressWrap { display: none !important; }
-
-  /* 18. SPLASH */
-  .splash-inner > * { animation: none !important; opacity: 1 !important; transform: none !important; }
-  .btn-os { touch-action: manipulation !important; pointer-events: auto !important; }
+  
+  .admin-photos { grid-template-columns: 1fr; }
+  
+  .memo-board { gap: 8px; }
+  .memo-card { font-size: 24px; }
 }
 
 /* ============================================================
@@ -1070,12 +849,11 @@ body {
     calc(100% - 60px) 10px, 100% 60px, 100% 100%, 0 100%
   );
 
-  /* Full container fit */
-  width: 100%;
-  left: 0;
-  transform: none;
+  /* Full viewport width breakout */
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
   box-sizing: border-box;
-  border-radius: 16px;
 }
 
 /* Realistic Paper Folds / Wrinkles Overlay */

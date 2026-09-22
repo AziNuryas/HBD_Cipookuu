@@ -120,9 +120,6 @@ function renderDiaryPage(idx, dir) {
   const stage = document.getElementById('pageStage');
   if(!stage) return;
 
-  stage.classList.add('p-turning');
-  setTimeout(() => { if (stage) stage.classList.remove('p-turning'); }, 750);
-
   const old = stage.querySelector('.p-active');
   if (old) {
     old.classList.remove('p-active');
@@ -135,33 +132,11 @@ function renderDiaryPage(idx, dir) {
   el.innerHTML = buildPageHTML(DIARY_PAGES[idx]);
   stage.appendChild(el);
 
-  const updateHeight = () => {
-    if (el && stage) {
-      const h = Math.max(el.scrollHeight, el.offsetHeight, el.getBoundingClientRect().height);
-      if (h > 0) stage.style.height = h + 'px';
-    }
-  };
-
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       el.classList.remove('p-enter-right', 'p-enter-left');
       el.classList.add('p-active');
-      updateHeight();
-      setTimeout(updateHeight, 100);
-      setTimeout(updateHeight, 350);
-      setTimeout(() => {
-        updateHeight();
-        // Clear explicit inline height so stage flows 100% naturally with active page
-        if (stage && el.classList.contains('p-active')) {
-          stage.style.height = '';
-        }
-      }, 700);
-
-      // Recalculate height when images load on mobile
-      el.querySelectorAll('img').forEach(img => {
-        if (img.complete) updateHeight();
-        else img.addEventListener('load', updateHeight, { once: true });
-      });
+      setTimeout(() => { stage.style.height = el.scrollHeight + 'px'; }, 50);
     });
   });
 
@@ -213,9 +188,9 @@ function initDecorations() {
     const isDark = Math.random() > 0.6;
     
     container.innerHTML += `
-      <div class="deco-wrap" style="top:${top}%; left:${left}%; animation-delay:${del}; pointer-events:none;">
-        <div class="bg-polaroid ${isDark ? 'dark' : ''}" style="--rot:${rot}; --scl:${scl}; --dur:${dur}; animation-delay:${phase}; pointer-events:none;">
-          <img src="${BG_PHOTOS[i]}" loading="lazy" style="pointer-events:none;"/>
+      <div class="deco-wrap" style="top:${top}%; left:${left}%; animation-delay:${del};">
+        <div class="bg-polaroid ${isDark ? 'dark' : ''}" style="--rot:${rot}; --scl:${scl}; --dur:${dur}; animation-delay:${phase};">
+          <img src="${BG_PHOTOS[i]}" loading="lazy"/>
         </div>
       </div>
     `;
@@ -239,8 +214,8 @@ function initDecorations() {
     const left = slot.c * 33 + (Math.random() * 15 + 5);
     
     container.innerHTML += `
-      <div class="deco-wrap" style="top:${top}%; left:${left}%; animation-delay:${del}; pointer-events:none;">
-        <div class="cute-sticker" style="--rot:${rot}; --scl:${scl}; --size:${size}; --dur:${dur}; animation-delay:${phase}; pointer-events:none;">${emoji}</div>
+      <div class="deco-wrap" style="top:${top}%; left:${left}%; animation-delay:${del};">
+        <div class="cute-sticker" style="--rot:${rot}; --scl:${scl}; --size:${size}; --dur:${dur}; animation-delay:${phase};">${emoji}</div>
       </div>
     `;
   }
@@ -318,33 +293,26 @@ function goTo(idx, dir) {
 document.getElementById('prevBtn')?.addEventListener('click', () => navigate(-1));
 document.getElementById('nextBtn')?.addEventListener('click', () => navigate(1));
 
-// ── SWIPE GESTURES ────────────────────────────────────────────
-// On mobile: swipe anywhere in the diary view
-// On desktop: drag on stage or use arrow buttons
+// ── SWIPE GESTURES FOR DIARY (TOUCH + MOUSE DRAG) ─────────────
 let startX = 0, startY = 0, endX = 0, endY = 0;
 let isDragging = false;
-const isMobile = () => window.innerWidth <= 900 || 'ontouchstart' in window;
 
-// Mobile: attach to the whole diary view for full-width swipe
-const diaryView = document.getElementById('view-diary');
-if (diaryView) {
-  diaryView.addEventListener('touchstart', e => {
-    startX = e.changedTouches[0].clientX;
-    startY = e.changedTouches[0].clientY;
-  }, { passive: true });
-
-  diaryView.addEventListener('touchend', e => {
-    endX = e.changedTouches[0].clientX;
-    endY = e.changedTouches[0].clientY;
-    evaluateSwipe(true);
-  }, { passive: true });
-}
-
-// Desktop: mouse drag on stage
 const stage = document.getElementById('pageStage');
 if (stage) {
+  // Touch Events (Mobile)
+  stage.addEventListener('touchstart', e => {
+    startX = e.changedTouches[0].screenX;
+    startY = e.changedTouches[0].screenY;
+  }, { passive: true });
+
+  stage.addEventListener('touchend', e => {
+    endX = e.changedTouches[0].screenX;
+    endY = e.changedTouches[0].screenY;
+    evaluateSwipe();
+  }, { passive: true });
+
+  // Mouse Drag Events (Desktop Swipe)
   stage.addEventListener('mousedown', e => {
-    if (isMobile()) return;
     isDragging = true;
     startX = e.clientX;
     startY = e.clientY;
@@ -357,18 +325,21 @@ if (stage) {
     endX = e.clientX;
     endY = e.clientY;
     stage.style.cursor = '';
-    evaluateSwipe(false);
+    evaluateSwipe();
   });
 }
 
-function evaluateSwipe(isTouch) {
+function evaluateSwipe() {
   const deltaX = endX - startX;
   const deltaY = endY - startY;
-  // Horizontal swipe must be clearly dominant over vertical (scrolling)
-  const swipeThreshold = isTouch ? 60 : 50;
-  if (Math.abs(deltaX) > Math.abs(deltaY) * 2 && Math.abs(deltaX) > swipeThreshold) {
-    if (deltaX < 0) navigate(1);
-    else navigate(-1);
+  const swipeThreshold = 35; // Responsive threshold for quick snappy feel
+  
+  if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+    if (deltaX < 0) {
+      navigate(1);  // Swipe Kiri -> Halaman Berikutnya
+    } else {
+      navigate(-1); // Swipe Kanan -> Halaman Sebelumnya
+    }
   }
 }
 
