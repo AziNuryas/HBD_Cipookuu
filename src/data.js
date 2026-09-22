@@ -83,7 +83,7 @@ export function saveBgPhotos(data) {
   localStorage.setItem('birthday_bg_photos', JSON.stringify(data));
 }
 
-const DEFAULT_MUSIC_URL = 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=happy-birthday-113840.mp3';
+const DEFAULT_MUSIC_URL = '/Lagu.mp3';
 
 export function getMusicUrl() {
   const stored = localStorage.getItem('birthday_music_url');
