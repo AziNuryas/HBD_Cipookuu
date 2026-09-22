@@ -120,6 +120,9 @@ function renderDiaryPage(idx, dir) {
   const stage = document.getElementById('pageStage');
   if(!stage) return;
 
+  stage.classList.add('p-turning');
+  setTimeout(() => { if (stage) stage.classList.remove('p-turning'); }, 750);
+
   const old = stage.querySelector('.p-active');
   if (old) {
     old.classList.remove('p-active');

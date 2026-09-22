@@ -299,6 +299,9 @@ body {
 ============================================================ */
 .page-stage {
   position: relative; transition: height 0.4s var(--expo);
+  touch-action: pan-y;
+}
+.page-stage.p-turning {
   perspective: 1600px;
   transform-style: preserve-3d;
 }
@@ -308,10 +311,12 @@ body {
   box-shadow: 0 16px 40px rgba(0,0,0,0.08);
   border: 1px solid rgba(220, 220, 220, 0.8);
   opacity: 0; pointer-events: none;
-  transform-style: preserve-3d;
   transform-origin: left center;
-  backface-visibility: hidden;
   touch-action: pan-y;
+}
+.page-stage.p-turning .diary-page {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }
 .diary-page.p-active {
   opacity: 1; pointer-events: auto; position: relative; z-index: 2;
