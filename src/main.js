@@ -318,27 +318,33 @@ function goTo(idx, dir) {
 document.getElementById('prevBtn')?.addEventListener('click', () => navigate(-1));
 document.getElementById('nextBtn')?.addEventListener('click', () => navigate(1));
 
-// ── SWIPE GESTURES FOR DIARY (DESKTOP DRAG & MOBILE SWIPE) ────
+// ── SWIPE GESTURES ────────────────────────────────────────────
+// On mobile: swipe anywhere in the diary view
+// On desktop: drag on stage or use arrow buttons
 let startX = 0, startY = 0, endX = 0, endY = 0;
 let isDragging = false;
+const isMobile = () => window.innerWidth <= 900 || 'ontouchstart' in window;
 
-const stage = document.getElementById('pageStage');
-if (stage) {
-  // Touch Events (Mobile Smartphones)
-  stage.addEventListener('touchstart', e => {
+// Mobile: attach to the whole diary view for full-width swipe
+const diaryView = document.getElementById('view-diary');
+if (diaryView) {
+  diaryView.addEventListener('touchstart', e => {
     startX = e.changedTouches[0].clientX;
     startY = e.changedTouches[0].clientY;
   }, { passive: true });
 
-  stage.addEventListener('touchend', e => {
+  diaryView.addEventListener('touchend', e => {
     endX = e.changedTouches[0].clientX;
     endY = e.changedTouches[0].clientY;
     evaluateSwipe(true);
   }, { passive: true });
+}
 
-  // Mouse Drag Events (Desktop only - skip if touchscreen active)
+// Desktop: mouse drag on stage
+const stage = document.getElementById('pageStage');
+if (stage) {
   stage.addEventListener('mousedown', e => {
-    if ('ontouchstart' in window && window.innerWidth <= 768) return;
+    if (isMobile()) return;
     isDragging = true;
     startX = e.clientX;
     startY = e.clientY;
@@ -358,16 +364,11 @@ if (stage) {
 function evaluateSwipe(isTouch) {
   const deltaX = endX - startX;
   const deltaY = endY - startY;
-  // Threshold jauh lebih aman (85px di mobile) agar scrolling vertikal & tap foto tidak kepencet swipe
-  const swipeThreshold = isTouch ? 85 : 50;
-  
-  // Memastikan gerakan memang swipe horizontal murni (deltaX jauh lebih besar dari deltaY)
-  if (Math.abs(deltaX) > Math.abs(deltaY) * 2.5 && Math.abs(deltaX) > swipeThreshold) {
-    if (deltaX < 0) {
-      navigate(1);  // Swipe Kiri -> Halaman Berikutnya
-    } else {
-      navigate(-1); // Swipe Kanan -> Halaman Sebelumnya
-    }
+  // Horizontal swipe must be clearly dominant over vertical (scrolling)
+  const swipeThreshold = isTouch ? 60 : 50;
+  if (Math.abs(deltaX) > Math.abs(deltaY) * 2 && Math.abs(deltaX) > swipeThreshold) {
+    if (deltaX < 0) navigate(1);
+    else navigate(-1);
   }
 }
 
