@@ -798,8 +798,24 @@ body {
 .admin-btn-save:active { transform: scale(0.98); }
 
 @media (max-width: 900px) {
+  /* 1. Hide floating background decorations on mobile */
   #bg-decorations { display: none !important; }
+  
+  /* 2. Disable pointer-events on stickers to prevent touch blocking */
   .scrapbook-sticker, .corner-sticker { pointer-events: none !important; }
+  
+  /* 3. Disable GPU layer locks on mobile photos */
+  .polaroid::before { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  .photobooth-strip { transform: none !important; }
+  .photobooth-strip:hover { transform: none !important; }
+  
+  /* 4. Enforce pan-y touch action across all layout containers */
+  html, body, #app, .screen, .views-wrap, .view, .view-content,
+  .diary-widget-wrap, .page-stage, .diary-page, .scrapbook-paper,
+  .photo-grid, .polaroid, .pol-img, .photobooth-grid, .photobooth-strip {
+    touch-action: pan-y !important;
+    -webkit-tap-highlight-color: transparent;
+  }
   
   .os-dock-wrap { top: 10px; padding: 0 8px; }
   .os-dock { gap: 2px; padding: 4px 6px; }
@@ -808,22 +824,31 @@ body {
   .dock-btn svg { width: 16px; height: 16px; }
   .dock-icon { width: 38px; height: 38px; }
   
-  .view-content { width: 100%; padding: 70px 10px 30px; touch-action: pan-y; }
-  .page-stage { touch-action: pan-y; }
-  .diary-page { padding: 20px 14px; border-radius: 18px; touch-action: pan-y; }
+  .view-content { width: 100%; padding: 70px 10px 30px; }
+  .diary-page { padding: 20px 14px; border-radius: 18px; }
   .page-title { font-size: 22px; margin-bottom: 8px; }
   .page-body { font-size: 15px; line-height: 1.7; margin-bottom: 16px; }
   .hb-title { font-size: 32px; }
   
   /* Mobile prev & next button positioning */
   .os-btn-icon.side-arrow {
-    width: 40px; height: 40px;
+    width: 44px; height: 44px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.18);
     z-index: 100 !important;
     pointer-events: auto !important;
+    cursor: pointer;
   }
   #prevBtn { left: 0px; }
   #nextBtn { right: 0px; }
+  
+  /* Larger hitboxes for page dots on mobile */
+  .page-dots { gap: 10px; padding: 10px 0; }
+  .dot {
+    width: 12px; height: 12px; border-radius: 6px;
+    pointer-events: auto !important;
+    cursor: pointer;
+  }
+  .dot.active { width: 32px; }
   
   .photo-grid { gap: 12px; }
   .polaroid { padding: 8px 8px 24px; max-width: 100%; pointer-events: auto !important; }
@@ -835,7 +860,6 @@ body {
   }
   
   .admin-photos { grid-template-columns: 1fr; }
-  
   .memo-board { gap: 8px; }
   .memo-card { font-size: 24px; }
 }
